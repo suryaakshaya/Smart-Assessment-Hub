@@ -1,1 +1,35 @@
+version: '3.8'
+
+services:
+  tomcat:
+    build: .
+    image: suryaakshaya/smarthub-image:latest   # your Docker Hub image if pushed
+    container_name: smarthub-container
+    ports:
+      - "8081:8080"
+    depends_on:
+      - mysql
+    networks:
+      - smarthub-net
+
+  mysql:
+    image: mysql:8.0
+    container_name: smarthub-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: smarthubdb
+      MYSQL_USER: sahuser
+      MYSQL_PASSWORD: sahpass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - smarthub-net
+
+volumes:
+  mysql-data:
+
+networks:
+  smarthub-net:
 
